@@ -37,9 +37,12 @@ function handleSearchBtn(event) {
                             eachAnime.style.backgroundColor = 'white';
                             eachAnime.style.color = 'black';
                         };
+
                         if (eachAnime.style.backgroundColor === 'black') {
-                            favourites.innerHTML += `${eachAnime.innerHTML}`;
+                            favourites.innerHTML += `<li class="favouriteanime">${eachAnime.innerHTML}</li>`;
                         }
+
+                        localStorage.setItem('favs', JSON.stringify(favourites.innerHTML))
                     };
                     eachAnime.addEventListener('click', handleFavourites);
                 };
@@ -47,6 +50,8 @@ function handleSearchBtn(event) {
     };
 };
 
+const savedFavs = JSON.parse(localStorage.getItem('favs'))
 
+favourites.innerHTML = savedFavs;
 
 searchBtn.addEventListener('click', handleSearchBtn);
