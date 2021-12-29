@@ -3,11 +3,12 @@
 const searchText = document.querySelector('.searchtext');
 const searchBtn = document.querySelector('.searchbtn');
 const animeList = document.querySelector('.animelist');
-const favourites = document.querySelector('.favourites');
+const favorites = document.querySelector('.favorites');
+let allResults = [];
+let favoriteAnimes = [];
 
 function handleSearchBtn(event) {
     event.preventDefault();
-    animeList.innerHTML = '';
 
     if (searchText.value.length >= 3) {
 
@@ -15,43 +16,67 @@ function handleSearchBtn(event) {
             .then((response) => response.json())
             .then((data) => {
 
-                for (let eachResult of data.results) {
+                allResults = data.results;
 
-                    if (eachResult.image_url === 'null') {
-                        animeList.innerHTML += `<li class="anime"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.title}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
-                    } else {
-                        animeList.innerHTML += `<li class="anime"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
-                    }
-                };
-
-                const anime = document.querySelectorAll('.anime');
-
-                for (const eachAnime of anime) {
-                    eachAnime.style.backgroundColor = 'white'
-                    eachAnime.style.color = 'black'
-                    function handleFavourites() {
-                        if (eachAnime.style.backgroundColor === 'white') {
-                            eachAnime.style.backgroundColor = 'black';
-                            eachAnime.style.color = 'white';
-                        } else {
-                            eachAnime.style.backgroundColor = 'white';
-                            eachAnime.style.color = 'black';
-                        };
-
-                        if (eachAnime.style.backgroundColor === 'black') {
-                            favourites.innerHTML += `<li class="favouriteanime">${eachAnime.innerHTML}</li>`;
-                        }
-
-                        localStorage.setItem('favs', JSON.stringify(favourites.innerHTML))
-                    };
-                    eachAnime.addEventListener('click', handleFavourites);
-                };
-            });
-    };
+                paintResults();
+            })
+    }
 };
+
+function paintResults() {
+    animeList.innerHTML = '';
+    for (let eachResult of allResults) {
+        if (eachResult.image_url === null) {
+            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+        } else {
+            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+        }
+
+    }
+
+    getFavorite();
+}
+
+function getFavorite() {
+    const anime = document.querySelectorAll('.anime');
+
+    for (const eachAnime of anime) {
+        eachAnime.style.backgroundColor = 'white';
+        eachAnime.style.color = 'black';
+
+        function handlefavoritesColour() {
+            if (eachAnime.style.backgroundColor === 'white') {
+                eachAnime.style.backgroundColor = 'black';
+                eachAnime.style.color = 'white';
+            } else {
+                eachAnime.style.backgroundColor = 'white';
+                eachAnime.style.color = 'black';
+            };
+        };
+
+        eachAnime.addEventListener('click', handlefavoritesColour);
+
+        function handleAddfavorites() {
+            let favs = [eachAnime.innerHTML];
+
+            if (eachAnime.style.backgroundColor === 'black') {
+                favorites.innerHTML += favs;
+            } else {
+                favs.splice(`${eachAnime.innerHTML}, 1`);
+                favorites.innerHTML += favs;
+            }
+
+            localStorage.setItem('favs', JSON.stringify(favorites.innerHTML))
+        }
+
+        eachAnime.addEventListener('click', handleAddfavorites);
+
+    };
+}
 
 const savedFavs = JSON.parse(localStorage.getItem('favs'))
 
-favourites.innerHTML = savedFavs;
+favorites.innerHTML = savedFavs;
 
 searchBtn.addEventListener('click', handleSearchBtn);
+
