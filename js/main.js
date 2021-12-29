@@ -27,9 +27,9 @@ function paintResults() {
     animeList.innerHTML = '';
     for (let eachResult of allResults) {
         if (eachResult.image_url === null) {
-            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+            animeList.innerHTML += `<li class="anime"><div id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></div></li>`
         } else {
-            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+            animeList.innerHTML += `<li class="anime"><div id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></div></li>`
         }
 
     }
@@ -60,11 +60,13 @@ function getFavorite() {
             let favs = [eachAnime.innerHTML];
 
             if (eachAnime.style.backgroundColor === 'black') {
-                favorites.innerHTML += favs;
+                favoriteAnimes.push(favs);
             } else {
-                favs.splice(`${eachAnime.innerHTML}, 1`);
-                favorites.innerHTML += favs;
+                favoriteAnimes.splice(Number(favs), 1);
             }
+            console.log(favoriteAnimes);
+
+            favorites.innerHTML = favoriteAnimes;
 
             localStorage.setItem('favs', JSON.stringify(favorites.innerHTML))
         }
