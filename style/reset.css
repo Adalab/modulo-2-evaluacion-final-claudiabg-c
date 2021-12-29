@@ -1,7 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap");
+
 body {
   margin: 0;
   padding: 10px;
   font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  background: #89123480;
+  color: white;
+}
+
+input {
+  font-family: "Montserrat", sans-serif;
+  border-radius: 5px;
+  border: 0;
+  font-size: 16px;
+  padding: 5px;
+  text-align: center;
+  color: #811866;
+}
+
+button {
+  font-family: "Montserrat", sans-serif;
+  border-radius: 5px;
+  border: 0;
+  font-size: 16px;
+  padding: 5px;
+  background-color: #6669687c;
+  color: white;
 }
 
 li {
