@@ -61,7 +61,7 @@ function getFavorite() {
         function handleAddfavorites(event) {
             let selectedAnime = event.currentTarget;
             if (eachAnime.style.backgroundColor === 'black') {
-                favoriteAnimes.push(`<li>${selectedAnime.innerHTML}<button>Eliminar de favoritos</button></li>`);
+                favoriteAnimes.push(`<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`);
             } else {
                 const indexFav = favoriteAnimes.indexOf(`${selectedAnime.innerHTML}`);
                 favoriteAnimes.splice(indexFav, 1);
@@ -71,18 +71,26 @@ function getFavorite() {
 
             localStorage.setItem('favs', JSON.stringify(favoriteAnimes))
 
+            getDeleteBtn()
         }
-
         eachAnime.addEventListener('click', handleAddfavorites);
-
     };
 }
 
+function getDeleteBtn() {
+    const favorite = document.querySelectorAll('.favorite');
+
+    for (let eachFav of favorite) {
+        function handleDeleteBtn() {
+            eachFav.innerHTML = '';
+
+        }
+        eachFav.addEventListener('click', handleDeleteBtn)
+    }
+}
+
 const savedFavs = JSON.parse(localStorage.getItem('favs'));
-
 favoritesInLocal = savedFavs;
-
 favsInLocal.innerHTML = favoritesInLocal;
 
 searchBtn.addEventListener('click', handleSearchBtn);
-
