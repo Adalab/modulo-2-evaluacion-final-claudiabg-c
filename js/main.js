@@ -29,9 +29,9 @@ function paintResults() {
     animeList.innerHTML = '';
     for (let eachResult of allResults) {
         if (eachResult.image_url === 'https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620') {
-            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2 class="animetitle">${eachResult.title}</h2></li>`
         } else {
-            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2>${eachResult.title}</h2></li>`
+            animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2 class="animetitle">${eachResult.title}</h2></li>`
         }
 
     }
@@ -43,16 +43,20 @@ function getFavorite() {
     const anime = document.querySelectorAll('.anime');
 
     for (const eachAnime of anime) {
-        eachAnime.style.backgroundColor = 'white';
-        eachAnime.style.color = 'black';
+        eachAnime.style.backgroundColor = 'pink';
+        eachAnime.style.color = 'grey';
+        eachAnime.style.border = '10px solid pink';
 
         function handlefavoritesColour() {
-            if (eachAnime.style.backgroundColor === 'white') {
-                eachAnime.style.backgroundColor = 'black';
-                eachAnime.style.color = 'white';
+            if (eachAnime.style.backgroundColor === 'pink') {
+                eachAnime.style.backgroundColor = 'grey';
+                eachAnime.style.border = '10px solid grey';
+                eachAnime.style.color = 'pink';
+
             } else {
-                eachAnime.style.backgroundColor = 'white';
-                eachAnime.style.color = 'black';
+                eachAnime.style.backgroundColor = 'pink';
+                eachAnime.style.border = '10px solid pink';
+                eachAnime.style.color = 'grey';
             };
         };
 
@@ -60,7 +64,7 @@ function getFavorite() {
 
         function handleAddfavorites(event) {
             let selectedAnime = event.currentTarget;
-            if (eachAnime.style.backgroundColor === 'black') {
+            if (eachAnime.style.backgroundColor === 'grey') {
                 favoriteAnimes.push(`<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`);
             } else {
                 const indexFav = favoriteAnimes.indexOf(`${selectedAnime.innerHTML}`);
