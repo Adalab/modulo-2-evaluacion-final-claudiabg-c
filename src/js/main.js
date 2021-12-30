@@ -5,6 +5,7 @@ const searchBtn = document.querySelector('.searchbtn');
 const animeList = document.querySelector('.animelist');
 const favorites = document.querySelector('.favorites');
 const favsInLocal = document.querySelector('.favsinlocal');
+const resetFavs = document.querySelector('.resetfavs');
 let allResults = [];
 let favoriteAnimes = [];
 let favoritesInLocal = [];
@@ -76,6 +77,10 @@ function getFavorite() {
 
       favorites.innerHTML = `${favoriteAnimes}`;
 
+      if (favorites.innerHTML !== '') {
+        resetFavs.classList.remove('hidden');
+      }
+
       localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
 
       getDeleteBtn();
@@ -100,4 +105,15 @@ const savedFavs = JSON.parse(localStorage.getItem('favs'));
 favoritesInLocal = savedFavs;
 favsInLocal.innerHTML = favoritesInLocal;
 
+if (favsInLocal.innerHTML !== '') {
+  resetFavs.classList.remove('hidden');
+}
+
+function handleResetFavorites() {
+  favsInLocal.innerHTML = '';
+  favorites.innerHTML = '';
+  resetFavs.classList.add('hidden');
+}
+
+resetFavs.addEventListener('click', handleResetFavorites);
 searchBtn.addEventListener('click', handleSearchBtn);
