@@ -90,7 +90,10 @@ function getFavorite() {
           `<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`
         );
       } else {
-        const indexFav = favoriteAnimes.indexOf(`${selectedAnime.innerHTML}`);
+        const indexFav = favoriteAnimes.indexOf(
+          `<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`
+        );
+        console.log(indexFav);
         favoriteAnimes.splice(indexFav, 1);
       }
 
