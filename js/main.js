@@ -72,6 +72,7 @@ function getFavorite() {
             }
 
             favorites.innerHTML = `${favoriteAnimes}`;
+            favorites.style.color = '#891234';
 
             localStorage.setItem('favs', JSON.stringify(favoriteAnimes))
 
@@ -96,5 +97,7 @@ function getDeleteBtn() {
 const savedFavs = JSON.parse(localStorage.getItem('favs'));
 favoritesInLocal = savedFavs;
 favsInLocal.innerHTML = favoritesInLocal;
+
+favsInLocal.style.color = '#891234';
 
 searchBtn.addEventListener('click', handleSearchBtn);

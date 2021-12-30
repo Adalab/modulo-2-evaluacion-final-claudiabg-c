@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de series de anime</title>
+    <title>Buscador de anime</title>
     <link rel="stylesheet" href="./style/reset.css">
     <link rel="stylesheet" href="./style/main.css">
 </head>
@@ -13,17 +13,19 @@
 <body>
 
     <header class="header">
-        <h1 class="title">Buscador de series de anime</h1>
+        <h1 class="title">Buscador de anime</h1>
         <form>
             <input type="text" placeholder="Busca aquí tu serie" class="searchtext">
-            <button class="searchbtn">Buscar</button>
-            <button class="resetbtn">Reset</button>
+            <div class="buttons">
+                <button class="searchbtn">Buscar</button>
+                <button class="resetbtn">Reset</button>
+            </div>
         </form>
     </header>
 
     <main class="main">
         <section class="favoriteanimes">
-            <h2>Series Favoritas</h2>
+            <h2>Animes Favoritos</h2>
             <div class="displayfavs">
                 <ul class="favorites"></ul>
                 <ul class="favsinlocal"></ul>
