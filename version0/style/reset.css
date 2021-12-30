@@ -15,7 +15,6 @@ form {
 }
 
 h2 {
-  color: white;
   font-size: 20px;
 }
 
@@ -81,7 +80,6 @@ img {
     flex-direction: row;
   }
   h2 {
-    color: white;
     font-size: 24px;
   }
 }
@@ -95,7 +93,7 @@ img {
   }
 
   img {
-    opacity: 0.8;
+    opacity: 0.9;
     height: 250px;
     width: 180px;
   }
