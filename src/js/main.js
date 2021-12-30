@@ -1,11 +1,12 @@
 'use strict';
 
-const searchText = document.querySelector('.searchtext');
-const searchBtn = document.querySelector('.searchbtn');
-const animeList = document.querySelector('.animelist');
-const favorites = document.querySelector('.favorites');
-const favsInLocal = document.querySelector('.favsinlocal');
-const resetFavs = document.querySelector('.resetfavs');
+const searchText = document.querySelector('.js-searchtext');
+const searchBtn = document.querySelector('.js-searchbtn');
+const animeList = document.querySelector('.js-animelist');
+const favorites = document.querySelector('.js-favorites');
+const favsInLocal = document.querySelector('.js-favsinlocal');
+const resetFavs = document.querySelector('.js-resetfavs');
+
 let allResults = [];
 let favoriteAnimes = [];
 let favoritesInLocal = [];
@@ -14,34 +15,52 @@ function handleSearchBtn(event) {
   event.preventDefault();
 
   if (searchText.value.length >= 3) {
-    fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText.value}`)
+    fetch(
+      `https://api.jikan.moe/v3/search/anime?q=${searchText.value.toLowerCase()}`
+    )
       .then((response) => response.json())
       .then((data) => {
         allResults = data.results;
 
-        paintResults();
+        getEachResult();
       });
   }
 }
 
-function paintResults() {
+function getHtmlAnimeList(id, img, name, noImg) {
+  let htmlAnimeList = `<li class="js-anime" id="${id}">`;
+  if (
+    img ===
+    `https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620`
+  ) {
+    htmlAnimeList += `<img src="${noImg}" alt="${name}">`;
+  } else {
+    htmlAnimeList += `<img src="${img}" alt="${name}">`;
+  }
+  htmlAnimeList += `<h2 class="animetitle">${name}</h2>`;
+  htmlAnimeList += `</li>`;
+  return htmlAnimeList;
+}
+
+function getEachResult() {
   animeList.innerHTML = '';
   for (let eachResult of allResults) {
-    if (
-      eachResult.image_url ===
-      'https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620'
-    ) {
-      animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}" alt="${eachResult.title}"><h2 class="animetitle">${eachResult.title}</h2></li>`;
-    } else {
-      animeList.innerHTML += `<li class="anime" id="${eachResult.mal_id}"><img src="${eachResult.image_url}" alt="${eachResult.title}"><h2 class="animetitle">${eachResult.title}</h2></li>`;
-    }
-  }
+    const filmWithNoImg = `https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}`;
 
+    const codeList = getHtmlAnimeList(
+      eachResult.mal_id,
+      eachResult.image_url,
+      eachResult.title,
+      filmWithNoImg
+    );
+
+    animeList.innerHTML += codeList;
+  }
   getFavorite();
 }
 
 function getFavorite() {
-  const anime = document.querySelectorAll('.anime');
+  const anime = document.querySelectorAll('.js-anime');
 
   for (const eachAnime of anime) {
     eachAnime.style.backgroundColor = 'darkslategray';
