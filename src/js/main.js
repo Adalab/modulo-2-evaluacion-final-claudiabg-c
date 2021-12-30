@@ -43,20 +43,20 @@ function getFavorite() {
   const anime = document.querySelectorAll('.anime');
 
   for (const eachAnime of anime) {
-    eachAnime.style.backgroundColor = 'pink';
-    eachAnime.style.color = 'grey';
-    eachAnime.style.border = '10px solid pink';
+    eachAnime.style.backgroundColor = 'darkslategray';
+    eachAnime.style.color = 'darkseagreen';
+    eachAnime.style.border = '10px solid darkslategray';
 
     // eslint-disable-next-line no-inner-declarations
     function handlefavoritesColour() {
-      if (eachAnime.style.backgroundColor === 'pink') {
-        eachAnime.style.backgroundColor = 'grey';
-        eachAnime.style.border = '10px solid grey';
-        eachAnime.style.color = 'pink';
+      if (eachAnime.style.backgroundColor === 'darkslategray') {
+        eachAnime.style.backgroundColor = 'darkseagreen';
+        eachAnime.style.border = '10px solid darkseagreen';
+        eachAnime.style.color = 'darkslategray';
       } else {
-        eachAnime.style.backgroundColor = 'pink';
-        eachAnime.style.border = '10px solid pink';
-        eachAnime.style.color = 'grey';
+        eachAnime.style.backgroundColor = 'darkslategray';
+        eachAnime.style.border = '10px solid darkslategray';
+        eachAnime.style.color = 'darkseagreen';
       }
     }
 
@@ -65,7 +65,7 @@ function getFavorite() {
     // eslint-disable-next-line no-inner-declarations
     function handleAddfavorites(event) {
       let selectedAnime = event.currentTarget;
-      if (eachAnime.style.backgroundColor === 'grey') {
+      if (eachAnime.style.backgroundColor === 'darkseagreen') {
         favoriteAnimes.push(
           `<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`
         );
@@ -75,7 +75,6 @@ function getFavorite() {
       }
 
       favorites.innerHTML = `${favoriteAnimes}`;
-      favorites.style.color = '#891234';
 
       localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
 
@@ -100,7 +99,5 @@ function getDeleteBtn() {
 const savedFavs = JSON.parse(localStorage.getItem('favs'));
 favoritesInLocal = savedFavs;
 favsInLocal.innerHTML = favoritesInLocal;
-
-favsInLocal.style.color = '#891234';
 
 searchBtn.addEventListener('click', handleSearchBtn);
