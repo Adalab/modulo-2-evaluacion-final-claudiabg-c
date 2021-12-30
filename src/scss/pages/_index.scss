@@ -1,4 +1,99 @@
-.main__list {
-  padding-left: 2rem;
-  padding-bottom: 20px;
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #891234;
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.favoriteanimes {
+  background-color: #891234;
+  min-height: 20vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.favorites {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.favsinlocal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.results {
+  margin-top: 10px;
+  background-color: #891234;
+  border-radius: 10px;
+  min-height: 45vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.animelist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.animetitle {
+  font-size: 16px;
+  text-align: center;
+}
+
+.deletebtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .main {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .title {
+    font-size: 38px;
+  }
+
+  .favoriteanimes {
+    min-height: 80vh;
+    width: 40%;
+    margin-right: 5px;
+  }
+
+  .results {
+    margin-top: 0;
+    margin-left: 5px;
+    min-height: 80vh;
+    width: 60%;
+  }
 }
