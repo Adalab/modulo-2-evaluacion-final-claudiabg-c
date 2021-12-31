@@ -11,6 +11,8 @@ let allResults = [];
 let favoriteAnimes = [];
 let favoritesInLocal = [];
 
+/////////////////////// GET DATA FROM API /////////////////////////
+
 function handleSearchBtn(event) {
   event.preventDefault();
 
@@ -27,6 +29,8 @@ function handleSearchBtn(event) {
   }
 }
 
+////////////////////// PAINT DATA FROM API //////////////////////////
+
 function getHtmlAnimeList(id, img, name, noImg) {
   let htmlAnimeList = `<li class="js-anime" id="${id}">`;
   if (
@@ -37,7 +41,7 @@ function getHtmlAnimeList(id, img, name, noImg) {
   } else {
     htmlAnimeList += `<img src="${img}" alt="${name}">`;
   }
-  htmlAnimeList += `<h2 class="animetitle">${name}</h2>`;
+  htmlAnimeList += `<h2 class="js-animetitle animetitle">${name}</h2>`;
   htmlAnimeList += `</li>`;
   return htmlAnimeList;
 }
@@ -53,66 +57,86 @@ function getEachResult() {
       eachResult.title,
       filmWithNoImg
     );
-
     animeList.innerHTML += codeList;
+    //getFavorite();
+    getEachAnimeResult();
   }
-  getFavorite();
 }
 
-function getFavorite() {
-  const anime = document.querySelectorAll('.js-anime');
+/////////////// CLICK TO SEND TO FAVORITES SECTION ////////////////
 
-  for (const eachAnime of anime) {
+function getHtmlFavList(id, img, name) {
+  let htmlFavList = `<li class="js-favorite" id="${id}">`;
+  htmlFavList += `<img src="${img}" alt="${name}">`;
+  htmlFavList += `<h2 class="js-animetitle animetitle">${name}</h2>`;
+  htmlFavList += `<button class="js-deletebtn deletebtn">X</button>`;
+  htmlFavList += `</li>`;
+  return htmlFavList;
+}
+
+function getFavorite(event) {
+  let selectedAnime = event.currentTarget;
+  const codeFavsList = getHtmlFavList(
+    selectedAnime.id,
+    selectedAnime.childNodes[0].currentSrc,
+    selectedAnime.childNodes[1].innerHTML
+  );
+  if (selectedAnime.style.backgroundColor === 'darkseagreen') {
+    favoriteAnimes.push(codeFavsList);
+  } else {
+    const indexFav = favoriteAnimes.indexOf(codeFavsList);
+    favoriteAnimes.splice(indexFav, 1);
+  }
+  favorites.innerHTML = favoriteAnimes;
+  if (favorites.innerHTML !== '') {
+    resetFavs.classList.remove('hidden');
+  }
+  localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
+  getEachDeleteBtn();
+  getDeleteBtn();
+}
+
+function getEachAnimeResult() {
+  const anime = document.querySelectorAll('.js-anime');
+  for (let eachAnime of anime) {
     eachAnime.style.backgroundColor = 'darkslategray';
     eachAnime.style.color = 'darkseagreen';
     eachAnime.style.border = '10px solid darkslategray';
 
-    // eslint-disable-next-line no-inner-declarations
-    function handlefavoritesColour() {
-      if (eachAnime.style.backgroundColor === 'darkslategray') {
-        eachAnime.style.backgroundColor = 'darkseagreen';
-        eachAnime.style.border = '10px solid darkseagreen';
-        eachAnime.style.color = 'darkslategray';
-      } else {
-        eachAnime.style.backgroundColor = 'darkslategray';
-        eachAnime.style.border = '10px solid darkslategray';
-        eachAnime.style.color = 'darkseagreen';
-      }
-    }
+    eachAnime.addEventListener('click', handleFavoritesColour);
+    eachAnime.addEventListener('click', getFavorite);
+  }
+}
 
-    eachAnime.addEventListener('click', handlefavoritesColour);
+function handleFavoritesColour(event) {
+  let selectedAnime = event.currentTarget;
+  if (selectedAnime.style.backgroundColor === 'darkslategray') {
+    selectedAnime.style.backgroundColor = 'darkseagreen';
+    selectedAnime.style.border = '10px solid darkseagreen';
+    selectedAnime.style.color = 'darkslategray';
+  } else {
+    selectedAnime.style.backgroundColor = 'darkslategray';
+    selectedAnime.style.border = '10px solid darkslategray';
+    selectedAnime.style.color = 'darkseagreen';
+  }
+}
 
-    // eslint-disable-next-line no-inner-declarations
-    function handleAddfavorites(event) {
-      let selectedAnime = event.currentTarget;
-      if (eachAnime.style.backgroundColor === 'darkseagreen') {
-        favoriteAnimes.push(
-          `<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`
-        );
-      } else {
-        const indexFav = favoriteAnimes.indexOf(
-          `<li class="favorite">${selectedAnime.innerHTML}<button class="deletebtn">X</button></li>`
-        );
-        console.log(indexFav);
-        favoriteAnimes.splice(indexFav, 1);
-      }
+////////////////////// DELETE FAVORITES BUTTON //////////////////////
 
-      favorites.innerHTML = `${favoriteAnimes}`;
+function deleteFavAnime(event) {
+  let selectedFav = event.currentTarget;
+  console.log(selectedFav.parentNode);
+}
 
-      if (favorites.innerHTML !== '') {
-        resetFavs.classList.remove('hidden');
-      }
-
-      localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
-
-      getDeleteBtn();
-    }
-    eachAnime.addEventListener('click', handleAddfavorites);
+function getEachDeleteBtn() {
+  const deleteBtn = document.querySelectorAll('.js-deletebtn');
+  for (const eachDelBtn of deleteBtn) {
+    eachDelBtn.addEventListener('click', deleteFavAnime);
   }
 }
 
 function getDeleteBtn() {
-  const favorite = document.querySelectorAll('.favorite');
+  const favorite = document.querySelectorAll('.js-favorite');
 
   for (let eachFav of favorite) {
     // eslint-disable-next-line no-inner-declarations
@@ -123,9 +147,13 @@ function getDeleteBtn() {
   }
 }
 
+////////////////////////// LOCALSTORAGE ///////////////////////////
+
 const savedFavs = JSON.parse(localStorage.getItem('favs'));
 favoritesInLocal = savedFavs;
 favsInLocal.innerHTML = favoritesInLocal;
+
+//////////////////////////// RESET FAVORITES ////////////////////////
 
 if (favsInLocal.innerHTML !== '') {
   resetFavs.classList.remove('hidden');
