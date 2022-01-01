@@ -21,7 +21,7 @@ function handleSearchBtn(event) {
       .then((data) => {
         allResults = data.results;
 
-        getEachResult();
+        getDataFromEachResult();
       });
   }
 }
@@ -45,7 +45,7 @@ function getHtmlAnimeList(id, img, name, noImg) {
   return htmlAnimeList;
 }
 
-function getEachResult() {
+function getDataFromEachResult() {
   animeList.innerHTML = '';
   for (let eachResult of allResults) {
     const filmWithNoImg = `https://via.placeholder.com/210x295/567891/891234/?text=${eachResult.type}`;
@@ -86,6 +86,10 @@ function printFavorites() {
   for (const eachDelBtn of deleteBtn) {
     eachDelBtn.addEventListener('click', deleteEachFavorite);
   }
+
+  if (favorites.innerHTML !== '') {
+    resetFavs.classList.remove('hidden');
+  }
 }
 
 function handleFavorites(event) {
@@ -94,9 +98,10 @@ function handleFavorites(event) {
   let addToFavorites;
 
   const anime = document.querySelectorAll('.js-anime');
-  for (const favToRemove of favoriteAnimes) {
-    if (favToRemove.id === selectedAnime.id) {
-      favList = favToRemove;
+
+  for (const eachFavInFavs of favoriteAnimes) {
+    if (eachFavInFavs.id === selectedAnime.id) {
+      favList = eachFavInFavs;
     }
   }
 
@@ -119,14 +124,8 @@ function handleFavorites(event) {
   }
 
   printFavorites();
+  saveInLocalStorage();
 }
-
-favorites.innerHTML = favoriteAnimes;
-if (favorites.innerHTML !== '') {
-  resetFavs.classList.remove('hidden');
-}
-
-localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
 
 ////////////////////// DELETE FAVORITES BUTTON //////////////////////
 
@@ -148,8 +147,20 @@ function deleteEachFavorite(event) {
 
 ////////////////////////// LOCALSTORAGE ///////////////////////////
 
-const savedFavs = localStorage.getItem('favs');
-favsInLocal.innerHTML = JSON.parse(savedFavs);
+function saveInLocalStorage() {
+  const toString = JSON.stringify(favoriteAnimes);
+  localStorage.setItem('favorites', toString);
+}
+
+function readLocalStorage() {
+  const localStorageData = localStorage.getItem('favorites');
+  if (localStorageData !== null) {
+    favoriteAnimes = JSON.parse(localStorageData);
+    printFavorites();
+  }
+}
+
+readLocalStorage();
 
 ///////////////// DELETE BUTTON FAVORITES IN LOCAL ////////////////
 
