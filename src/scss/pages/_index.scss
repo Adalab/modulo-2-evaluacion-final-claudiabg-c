@@ -32,6 +32,11 @@
   align-items: center;
 }
 
+.selected {
+  background-color: #5a8c73de;
+  color: #0a262f;
+}
+
 .favorites {
   display: flex;
   flex-wrap: wrap;
@@ -67,7 +72,6 @@
     rgb(85, 138, 120)
   );
   width: 100px;
-  color: #0a262f;
   border-radius: 10px;
 }
 

@@ -57,77 +57,95 @@ function getEachResult() {
       filmWithNoImg
     );
     animeList.innerHTML += codeList;
-    getEachAnimeResult();
+
+    const anime = document.querySelectorAll('.js-anime');
+
+    //getEachAnimeResult();
+
+    for (let eachAnime of anime) {
+      eachAnime.addEventListener('click', handleFavorites);
+    }
   }
 }
 
 /////////////// CLICK TO SEND TO FAVORITES SECTION ////////////////
 
-function getHtmlFavList(id, img, name) {
-  let htmlFavList = `<li class="js-favorite" id="${id}">`;
-  htmlFavList += `<img src="${img}" alt="${name}">`;
-  htmlFavList += `<h2 class="js-animetitle animetitle">${name}</h2>`;
-  htmlFavList += `<button class="js-deletebtn deletebtn">X</button>`;
+function getHtmlFavList(eachFavAnime) {
+  let htmlFavList = `<li class="js-favorite" id="${eachFavAnime.id}">`;
+  htmlFavList += `<img src="${eachFavAnime.img}" alt="${eachFavAnime.name}">`;
+  htmlFavList += `<h2 class="js-animetitle animetitle">${eachFavAnime.name}</h2>`;
+  htmlFavList += `<button class="js-deletebtn deletebtn" id="${eachFavAnime.id}">X</button>`;
   htmlFavList += `</li>`;
   return htmlFavList;
 }
 
-function getFavorite(event) {
-  let selectedAnime = event.currentTarget;
-  const codeFavsList = getHtmlFavList(
-    selectedAnime.id,
-    selectedAnime.childNodes[0].currentSrc,
-    selectedAnime.childNodes[1].innerHTML
-  );
-  if (selectedAnime.style.backgroundColor === 'darkseagreen') {
-    favoriteAnimes.push(codeFavsList);
-  } else {
-    const indexFav = favoriteAnimes.indexOf(codeFavsList);
-    favoriteAnimes.splice(indexFav, 1);
+function printFavorites() {
+  favorites.innerHTML = '';
+  for (const eachFavAnime of favoriteAnimes) {
+    favorites.innerHTML += getHtmlFavList(eachFavAnime);
   }
-  favorites.innerHTML = favoriteAnimes;
-  if (favorites.innerHTML !== '') {
-    resetFavs.classList.remove('hidden');
+  // getEachDeleteBtn();
+  const deleteBtn = document.querySelectorAll('.js-deletebtn');
+  for (const eachDelBtn of deleteBtn) {
+    eachDelBtn.addEventListener('click', deleteEachFavorite);
   }
-  localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
-  getEachDeleteBtn();
 }
 
-function getEachAnimeResult() {
+function handleFavorites(event) {
+  let selectedAnime = event.currentTarget;
+  let favList;
+  let addToFavorites;
+
   const anime = document.querySelectorAll('.js-anime');
-  for (let eachAnime of anime) {
-    eachAnime.style.backgroundColor = 'darkslategray';
-    eachAnime.style.color = 'darkseagreen';
-    eachAnime.style.border = '10px solid darkslategray';
-
-    eachAnime.addEventListener('click', handleFavoritesColour);
-    eachAnime.addEventListener('click', getFavorite);
+  for (const favToRemove of favoriteAnimes) {
+    if (favToRemove.id === selectedAnime.id) {
+      favList = favToRemove;
+    }
   }
-}
 
-function handleFavoritesColour(event) {
-  let selectedAnime = event.currentTarget;
-  if (selectedAnime.style.backgroundColor === 'darkslategray') {
-    selectedAnime.style.backgroundColor = 'darkseagreen';
-    selectedAnime.style.border = '10px solid darkseagreen';
-    selectedAnime.style.color = 'darkslategray';
+  if (favList === undefined) {
+    for (const animeToFav of anime) {
+      if (animeToFav.id === selectedAnime.id) {
+        selectedAnime.classList.add('selected');
+        addToFavorites = animeToFav;
+      }
+    }
+    favoriteAnimes.push({
+      id: addToFavorites.id,
+      img: addToFavorites.childNodes[0].currentSrc,
+      name: addToFavorites.childNodes[1].innerHTML,
+    });
   } else {
-    selectedAnime.style.backgroundColor = 'darkslategray';
-    selectedAnime.style.border = '10px solid darkslategray';
-    selectedAnime.style.color = 'darkseagreen';
+    const indexFav = favoriteAnimes.indexOf(favList);
+    favoriteAnimes.splice(indexFav, 1);
+    selectedAnime.classList.remove('selected');
   }
+
+  printFavorites();
 }
+
+favorites.innerHTML = favoriteAnimes;
+if (favorites.innerHTML !== '') {
+  resetFavs.classList.remove('hidden');
+}
+
+localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
 
 ////////////////////// DELETE FAVORITES BUTTON //////////////////////
 
-function deleteFavAnime(event) {
-  event.target.parentElement.remove();
-}
+function deleteEachFavorite(event) {
+  let animeToRemove = event.currentTarget;
+  let notFavAnymore;
+  for (const favToRemove of favoriteAnimes) {
+    if (favToRemove.id === animeToRemove.id) {
+      notFavAnymore = favToRemove;
+    }
+  }
 
-function getEachDeleteBtn() {
-  const deleteBtn = document.querySelectorAll('.js-deletebtn');
-  for (const eachDelBtn of deleteBtn) {
-    eachDelBtn.addEventListener('click', deleteFavAnime);
+  if (notFavAnymore.id === notFavAnymore.id) {
+    const indexFav = favoriteAnimes.indexOf(notFavAnymore);
+    favoriteAnimes.splice(indexFav, 1);
+    printFavorites();
   }
 }
 

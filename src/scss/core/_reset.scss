@@ -1,10 +1,6 @@
-html {
-  background: #000116;
-}
-
 body {
-  box-sizing: border-box;
   height: 100vh;
+  box-sizing: border-box;
   margin: 0;
   padding: 10px;
   font-size: 16px;
@@ -12,7 +8,8 @@ body {
   background: url('../images/totoro_pc.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: top center;
+  background-position: center center;
+  background-attachment: fixed;
   color: rgb(155, 204, 128);
 }
 
@@ -73,7 +70,8 @@ li {
   flex-direction: column;
   align-items: center;
   border-radius: 2px;
-  padding-top: 5px;
+  padding: 10px 0 5px;
+  background-color: #0a262fcb;
 }
 
 img {
@@ -104,12 +102,13 @@ img {
   }
 }
 
-@media (min-width: 731px) {
+@media (min-width: 1024px) {
   li {
     cursor: pointer;
     width: 250px;
     border-radius: 5px;
     padding-top: 10px;
+    margin: 0 15px 30px;
   }
 
   img {
