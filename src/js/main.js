@@ -4,7 +4,6 @@ const searchText = document.querySelector('.js-searchtext');
 const searchBtn = document.querySelector('.js-searchbtn');
 const animeList = document.querySelector('.js-animelist');
 const favorites = document.querySelector('.js-favorites');
-const favsInLocal = document.querySelector('.js-favsinlocal');
 const resetFavs = document.querySelector('.js-resetfavs');
 
 let allResults = [];
@@ -85,6 +84,7 @@ function printFavorites() {
   const deleteBtn = document.querySelectorAll('.js-deletebtn');
   for (const eachDelBtn of deleteBtn) {
     eachDelBtn.addEventListener('click', deleteEachFavorite);
+    eachDelBtn.addEventListener('click', deleteFavoriteFromLocal);
   }
 
   if (favorites.innerHTML !== '') {
@@ -156,6 +156,7 @@ function readLocalStorage() {
   const localStorageData = localStorage.getItem('favorites');
   if (localStorageData !== null) {
     favoriteAnimes = JSON.parse(localStorageData);
+    resetFavs.classList.remove('hidden');
     printFavorites();
   }
 }
@@ -164,28 +165,26 @@ readLocalStorage();
 
 ///////////////// DELETE BUTTON FAVORITES IN LOCAL ////////////////
 
-function deleteFavAnimeLocal(event) {
-  event.target.parentElement.remove();
-}
-
-if (favsInLocal.innerHTML !== '') {
-  const favoriteClassLocal = favsInLocal.querySelector(':scope > .js-favorite');
-  let deleteBtnLocal = favoriteClassLocal.querySelector(
-    ':scope > .js-deletebtn'
-  );
-  deleteBtnLocal.addEventListener('click', deleteFavAnimeLocal);
+function deleteFavoriteFromLocal(event) {
+  let selectedFav = event.currentTarget;
+  let removeItem;
+  let favsArray = JSON.parse(localStorage.getItem('favorites'));
+  for (const eachFav of favsArray) {
+    if (eachFav.id === selectedFav.id) {
+      removeItem = eachFav;
+      let favsIndexInLocal = favsArray.indexOf(removeItem);
+      favsArray.splice(favsIndexInLocal, 1);
+      const toString = JSON.stringify(favsArray);
+      localStorage.setItem('favorites', toString);
+    }
+  }
 }
 
 //////////////////////////// RESET FAVORITES ////////////////////////
 
-if (favsInLocal.innerHTML !== '') {
-  resetFavs.classList.remove('hidden');
-}
-
 function handleResetFavorites() {
-  favsInLocal.innerHTML = '';
   favorites.innerHTML = '';
-  localStorage.removeItem('favs');
+  localStorage.removeItem('favorites');
   resetFavs.classList.add('hidden');
 }
 
