@@ -9,7 +9,6 @@ const resetFavs = document.querySelector('.js-resetfavs');
 
 let allResults = [];
 let favoriteAnimes = [];
-let favoritesInLocal = [];
 
 /////////////////////// GET DATA FROM API /////////////////////////
 
@@ -28,6 +27,8 @@ function handleSearchBtn(event) {
       });
   }
 }
+
+searchBtn.addEventListener('click', handleSearchBtn);
 
 ////////////////////// PAINT DATA FROM API //////////////////////////
 
@@ -58,7 +59,6 @@ function getEachResult() {
       filmWithNoImg
     );
     animeList.innerHTML += codeList;
-    //getFavorite();
     getEachAnimeResult();
   }
 }
@@ -93,7 +93,6 @@ function getFavorite(event) {
   }
   localStorage.setItem('favs', JSON.stringify(favoriteAnimes));
   getEachDeleteBtn();
-  getDeleteBtn();
 }
 
 function getEachAnimeResult() {
@@ -124,8 +123,7 @@ function handleFavoritesColour(event) {
 ////////////////////// DELETE FAVORITES BUTTON //////////////////////
 
 function deleteFavAnime(event) {
-  let selectedFav = event.currentTarget;
-  console.log(selectedFav.parentNode);
+  event.target.parentElement.remove();
 }
 
 function getEachDeleteBtn() {
@@ -135,23 +133,20 @@ function getEachDeleteBtn() {
   }
 }
 
-function getDeleteBtn() {
-  const favorite = document.querySelectorAll('.js-favorite');
-
-  for (let eachFav of favorite) {
-    // eslint-disable-next-line no-inner-declarations
-    function handleDeleteBtn() {
-      eachFav.innerHTML = '';
-    }
-    eachFav.addEventListener('click', handleDeleteBtn);
-  }
-}
-
 ////////////////////////// LOCALSTORAGE ///////////////////////////
 
-const savedFavs = JSON.parse(localStorage.getItem('favs'));
-favoritesInLocal = savedFavs;
-favsInLocal.innerHTML = favoritesInLocal;
+const savedFavs = localStorage.getItem('favs');
+favsInLocal.innerHTML = JSON.parse(savedFavs);
+
+///////////////// DELETE BUTTON FAVORITES IN LOCAL ////////////////
+
+if (favsInLocal.innerHTML !== '') {
+  const favoriteClassLocal = favsInLocal.querySelector(':scope > .js-favorite');
+  let deleteBtnLocal = favoriteClassLocal.querySelector(
+    ':scope > .js-deletebtn'
+  );
+  deleteBtnLocal.addEventListener('click', deleteFavAnime);
+}
 
 //////////////////////////// RESET FAVORITES ////////////////////////
 
@@ -162,8 +157,8 @@ if (favsInLocal.innerHTML !== '') {
 function handleResetFavorites() {
   favsInLocal.innerHTML = '';
   favorites.innerHTML = '';
+  localStorage.removeItem('favs');
   resetFavs.classList.add('hidden');
 }
 
 resetFavs.addEventListener('click', handleResetFavorites);
-searchBtn.addEventListener('click', handleSearchBtn);
