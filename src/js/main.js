@@ -16,9 +16,7 @@ function handleSearchBtn(event) {
   event.preventDefault();
 
   if (searchText.value.length >= 3) {
-    fetch(
-      `https://api.jikan.moe/v3/search/anime?q=${searchText.value.toLowerCase()}`
-    )
+    fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText.value}`)
       .then((response) => response.json())
       .then((data) => {
         allResults = data.results;
@@ -140,12 +138,16 @@ favsInLocal.innerHTML = JSON.parse(savedFavs);
 
 ///////////////// DELETE BUTTON FAVORITES IN LOCAL ////////////////
 
+function deleteFavAnimeLocal(event) {
+  event.target.parentElement.remove();
+}
+
 if (favsInLocal.innerHTML !== '') {
   const favoriteClassLocal = favsInLocal.querySelector(':scope > .js-favorite');
   let deleteBtnLocal = favoriteClassLocal.querySelector(
     ':scope > .js-deletebtn'
   );
-  deleteBtnLocal.addEventListener('click', deleteFavAnime);
+  deleteBtnLocal.addEventListener('click', deleteFavAnimeLocal);
 }
 
 //////////////////////////// RESET FAVORITES ////////////////////////

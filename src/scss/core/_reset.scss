@@ -1,9 +1,18 @@
+html {
+  background: #000116;
+}
+
 body {
+  box-sizing: border-box;
+  height: 100vh;
   margin: 0;
   padding: 10px;
   font-size: 16px;
   font-family: 'Kanit', sans-serif;
-  background: #001720;
+  background: url('../images/totoro_pc.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
   color: rgb(155, 204, 128);
 }
 
@@ -95,7 +104,7 @@ img {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 731px) {
   li {
     cursor: pointer;
     width: 250px;
