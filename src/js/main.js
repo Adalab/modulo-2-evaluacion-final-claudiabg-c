@@ -60,8 +60,6 @@ function getEachResult() {
 
     const anime = document.querySelectorAll('.js-anime');
 
-    //getEachAnimeResult();
-
     for (let eachAnime of anime) {
       eachAnime.addEventListener('click', handleFavorites);
     }
@@ -84,7 +82,6 @@ function printFavorites() {
   for (const eachFavAnime of favoriteAnimes) {
     favorites.innerHTML += getHtmlFavList(eachFavAnime);
   }
-  // getEachDeleteBtn();
   const deleteBtn = document.querySelectorAll('.js-deletebtn');
   for (const eachDelBtn of deleteBtn) {
     eachDelBtn.addEventListener('click', deleteEachFavorite);
