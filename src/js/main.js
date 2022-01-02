@@ -21,10 +21,11 @@ function handleSearchBtn(event) {
         allResults = data.results;
 
         getDataFromEachResult();
+        findItInFavorites();
+        giveTheColor();
       });
   }
 }
-
 searchBtn.addEventListener('click', handleSearchBtn);
 
 ////////////////////// PAINT DATA FROM API //////////////////////////
@@ -108,6 +109,7 @@ function handleFavorites(event) {
   if (favList === undefined) {
     for (const animeToFav of anime) {
       if (animeToFav.id === selectedAnime.id) {
+        selectedAnime.classList.remove('notselected');
         selectedAnime.classList.add('selected');
         addToFavorites = animeToFav;
       }
@@ -122,9 +124,10 @@ function handleFavorites(event) {
     favoriteAnimes.splice(indexFav, 1);
     selectedAnime.classList.remove('selected');
   }
-
   printFavorites();
   saveInLocalStorage();
+  readLocalStorage();
+  giveTheColor();
 }
 
 ////////////////////// DELETE FAVORITES BUTTON //////////////////////
@@ -158,10 +161,44 @@ function readLocalStorage() {
     favoriteAnimes = JSON.parse(localStorageData);
     resetFavs.classList.remove('hidden');
     printFavorites();
+    if (localStorageData === '[]') {
+      resetFavs.classList.add('hidden');
+    }
   }
 }
 
 readLocalStorage();
+
+////////////////// PAINT COLORS IF IT'S FAVORITE //////////////////
+
+function findItInFavorites() {
+  let favsArray = JSON.parse(localStorage.getItem('favorites'));
+  if (favsArray !== null) {
+    for (const eachFav of favsArray) {
+      const itsFav = allResults.find(
+        (favAnime) => `${favAnime.mal_id}` === eachFav.id
+      );
+      if (itsFav !== undefined) {
+        return true;
+      }
+    }
+  }
+  return true;
+}
+
+function giveTheColor() {
+  const itsFav = findItInFavorites();
+  if (itsFav === true) {
+    for (const eachResult of allResults) {
+      const itsNotAFavorite = document.getElementById(eachResult.mal_id);
+      const itsAFavorite = document.querySelectorAll('.js-anime');
+      for (const eachAnime of itsAFavorite) {
+        eachAnime.classList.add('selected');
+      }
+      itsNotAFavorite.classList.add('notselected');
+    }
+  }
+}
 
 ///////////////// DELETE BUTTON FAVORITES IN LOCAL ////////////////
 
@@ -178,14 +215,18 @@ function deleteFavoriteFromLocal(event) {
       localStorage.setItem('favorites', toString);
     }
   }
+  readLocalStorage();
+  giveTheColor();
 }
 
 //////////////////////////// RESET FAVORITES ////////////////////////
 
 function handleResetFavorites() {
   favorites.innerHTML = '';
+  favoriteAnimes = [];
   localStorage.removeItem('favorites');
   resetFavs.classList.add('hidden');
+  giveTheColor();
 }
 
 resetFavs.addEventListener('click', handleResetFavorites);

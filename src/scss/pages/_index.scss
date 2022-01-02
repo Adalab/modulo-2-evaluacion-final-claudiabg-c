@@ -6,6 +6,7 @@
 }
 
 .title {
+  text-shadow: rgb(155, 204, 128) 0 0 30px;
   text-align: center;
   font-size: 28px;
 }
@@ -35,6 +36,11 @@
 .selected {
   background-color: #5a8c73de;
   color: #0a262f;
+  box-shadow: #5a8c73de 0 0 20px;
+
+  & img {
+    opacity: 1;
+  }
 }
 
 .favorites {
@@ -124,6 +130,12 @@
   );
 }
 
+.notselected {
+  background-color: #0a262f93;
+  color: #5a8c73de;
+  box-shadow: none;
+}
+
 @media (min-width: 768px) {
   .main {
     flex-direction: row;
@@ -145,6 +157,6 @@
     margin-top: 0;
     margin-left: 5px;
     min-height: 70vh;
-    width: 60%;
+    width: 80%;
   }
 }
