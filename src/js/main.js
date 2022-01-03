@@ -37,6 +37,8 @@ function getHtmlAnimeList(id, img, name, noImg) {
     `https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620`
   ) {
     htmlAnimeList += `<img src="${noImg}" alt="${name}">`;
+  } else if (img === null) {
+    htmlAnimeList += `<img src="${noImg}" alt="${name}">`;
   } else {
     htmlAnimeList += `<img src="${img}" alt="${name}">`;
   }

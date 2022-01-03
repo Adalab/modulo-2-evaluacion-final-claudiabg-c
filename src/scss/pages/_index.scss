@@ -6,9 +6,12 @@
 }
 
 .title {
-  text-shadow: rgb(155, 204, 128) 0 0 30px;
+  font-family: 'Exo 2', sans-serif;
+  text-transform: uppercase;
   text-align: center;
   font-size: 28px;
+  animation: flicker 8s infinite alternate;
+  letter-spacing: 2px;
 }
 
 .buttons {
@@ -37,10 +40,6 @@
   background-color: #5a8c73de;
   color: #0a262f;
   box-shadow: #5a8c73de 0 0 20px;
-
-  & img {
-    opacity: 1;
-  }
 }
 
 .favorites {
@@ -158,5 +157,27 @@
     margin-left: 5px;
     min-height: 70vh;
     width: 80%;
+  }
+}
+
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    text-shadow: -2px -2px 4px #fff, 2px 2px 4px #fff,
+      0 0 10px rgb(155, 204, 128), 0 0 20px rgb(155, 204, 128),
+      0 0 30px rgb(155, 204, 128), 0 0 40px rgb(155, 204, 128),
+      0 0 5px rgb(155, 204, 128);
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
   }
 }
