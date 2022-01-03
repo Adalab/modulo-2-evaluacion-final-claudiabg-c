@@ -1,0 +1,102 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #5a8c73;
+}
+
+.title {
+  font-family: 'Exo 2', sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 28px;
+  animation: flicker 8s infinite alternate;
+  letter-spacing: 2px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchtext {
+  font-family: 'Kanit', sans-serif;
+  border-radius: 5px;
+  border: 0;
+  font-size: 14px;
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+  color: #5a8c73;
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn {
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 5px;
+  border: 0;
+  font-size: 14px;
+  padding: 5px 20px 5px;
+  margin: 5px;
+  background-image: linear-gradient(
+    to right,
+    rgb(155, 204, 128),
+    rgb(112, 180, 157)
+  );
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-image: linear-gradient(
+    to left,
+    rgb(111, 147, 92),
+    rgb(85, 138, 120)
+  );
+}
+
+@keyframes flicker {
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    text-shadow: -2px -2px 4px #fff, 2px 2px 4px #fff,
+      0 0 10px rgb(155, 204, 128), 0 0 20px rgb(155, 204, 128),
+      0 0 30px rgb(155, 204, 128), 0 0 40px rgb(155, 204, 128),
+      0 0 5px rgb(155, 204, 128);
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@include tablet {
+  .title {
+    font-size: 38px;
+  }
+
+  .form {
+    flex-direction: row;
+  }
+
+  .searchtext {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 16px;
+  }
+}

@@ -10,35 +10,12 @@
 
 <body>
 
-  <header class="header">
-    <h1 class="title">Buscador de anime</h1>
-    <form>
-      <input type="text" placeholder="Busca aquí tu serie" class="js-searchtext searchtext">
-      <div class="buttons">
-        <button class="js-searchbtn searchbtn">Buscar</button>
-        <button class="resetbtn">Reset</button>
-      </div>
-    </form>
-  </header>
+  <include src="./partials/header.html"></include>
 
-  <main class="main">
-    <section class="favoriteanimes">
-      <h2>Animes favoritos</h2>
-      <div class="displayfavs">
-        <ul class="js-favorites favorites"></ul>
-        <ul class="js-favsinlocal favsinlocal"></ul>
-        <div class="js-resetdiv resetdiv">
-          <button class="js-resetfavs resetfavs hidden">Reset favoritos</button>
-        </div>
-      </div>
-    </section>
-    <section class="results">
-      <h2>Resultados</h2>
-      <ul class="js-animelist animelist"></ul>
-    </section>
-  </main>
+  <include src="./partials/main.html"></include>
 
   <script src="./assets/js/main.js"></script>
+
 </body>
 
 </html>
