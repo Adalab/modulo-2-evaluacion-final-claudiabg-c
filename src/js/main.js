@@ -5,6 +5,7 @@ const searchBtn = document.querySelector('.js-searchbtn');
 const animeList = document.querySelector('.js-animelist');
 const favorites = document.querySelector('.js-favorites');
 const resetFavs = document.querySelector('.js-resetfavs');
+const logBtn = document.querySelector('.js-log');
 
 let allResults = [];
 let favoriteAnimes = [];
@@ -30,7 +31,7 @@ searchBtn.addEventListener('click', handleSearchBtn);
 
 ////////////////////// PAINT DATA FROM API //////////////////////////
 
-function getHtmlAnimeList(id, img, name, noImg) {
+function getHtmlAnimeList(id, img, name, noImg, score) {
   let htmlAnimeList = `<li class="js-anime" id="${id}">`;
   if (
     img ===
@@ -43,6 +44,9 @@ function getHtmlAnimeList(id, img, name, noImg) {
     htmlAnimeList += `<img src="${img}" alt="${name}">`;
   }
   htmlAnimeList += `<h2 class="js-animetitle animetitle">${name}</h2>`;
+  if (score > 7) {
+    htmlAnimeList += `<p>Recomendada</p>`;
+  }
   htmlAnimeList += `</li>`;
   return htmlAnimeList;
 }
@@ -56,7 +60,8 @@ function getDataFromEachResult() {
       eachResult.mal_id,
       eachResult.image_url,
       eachResult.title,
-      filmWithNoImg
+      filmWithNoImg,
+      eachResult.score
     );
     animeList.innerHTML += codeList;
 
@@ -232,3 +237,10 @@ function handleResetFavorites() {
 }
 
 resetFavs.addEventListener('click', handleResetFavorites);
+
+function numberOfFavs(event) {
+  event.preventDefault();
+  console.log(`Tienes ${favoriteAnimes.length} animes favoritos`);
+}
+
+logBtn.addEventListener('click', numberOfFavs);
