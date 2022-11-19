@@ -16,10 +16,12 @@ function handleSearchBtn(event) {
   event.preventDefault();
 
   if (searchText.value.length >= 3) {
-    fetch(`https://api.jikan.moe/v3/search/anime?q=${searchText.value}`)
+    fetch(`https://api.jikan.moe/v4/anime?limit=24&order_by=score&q=${searchText.value}`)
       .then((response) => response.json())
       .then((data) => {
-        allResults = data.results;
+        allResults = data.data;
+
+        console.log(data, allResults);
 
         getDataFromEachResult();
         findItInFavorites();
@@ -35,7 +37,7 @@ function getHtmlAnimeList(id, img, name, noImg, score) {
   let htmlAnimeList = `<li class="js-anime" id="${id}">`;
   if (
     img ===
-    `https://cdn.myanimelist.net/images/qm_50.gif?s=e1ff92a46db617cb83bfc1e205aff620`
+    `https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png`
   ) {
     htmlAnimeList += `<img src="${noImg}" alt="${name}">`;
   } else if (img === null) {
@@ -58,7 +60,7 @@ function getDataFromEachResult() {
 
     const codeList = getHtmlAnimeList(
       eachResult.mal_id,
-      eachResult.image_url,
+      eachResult.images.jpg.large_image_url,
       eachResult.title,
       filmWithNoImg,
       eachResult.score
