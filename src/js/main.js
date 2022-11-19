@@ -5,7 +5,6 @@ const searchBtn = document.querySelector('.js-searchbtn');
 const animeList = document.querySelector('.js-animelist');
 const favorites = document.querySelector('.js-favorites');
 const resetFavs = document.querySelector('.js-resetfavs');
-const logBtn = document.querySelector('.js-log');
 
 let allResults = [];
 let favoriteAnimes = [];
@@ -20,8 +19,6 @@ function handleSearchBtn(event) {
       .then((response) => response.json())
       .then((data) => {
         allResults = data.data;
-
-        console.log(data, allResults);
 
         getDataFromEachResult();
         findItInFavorites();
@@ -239,10 +236,3 @@ function handleResetFavorites() {
 }
 
 resetFavs.addEventListener('click', handleResetFavorites);
-
-function numberOfFavs(event) {
-  event.preventDefault();
-  console.log(`Tienes ${favoriteAnimes.length} animes favoritos`);
-}
-
-logBtn.addEventListener('click', numberOfFavs);
